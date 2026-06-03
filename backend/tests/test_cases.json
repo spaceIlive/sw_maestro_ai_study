@@ -1,0 +1,240 @@
+[
+  {
+    "id": "TC-01",
+    "description": "기획자 → 개발자: 도메인의 의미가 기능 범위인지 기술 구조인지 불명확",
+    "input": {
+      "text": "개발팀에서 이번 주에는 로그인 도메인 쪽을 먼저 정리해야 합니다.",
+      "senderRole": "기획자",
+      "receiverRole": "개발자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["로그인 도메인", "정리"]
+    }
+  },
+  {
+    "id": "TC-02",
+    "description": "개발자 → 기획자: 개발자가 기술 용어를 설명 없이 사용",
+    "input": {
+      "text": "결제 요청은 idempotency 보장이 안 되어 있어서 사용자가 같은 버튼을 여러 번 누르면 중복 주문이 생길 수 있습니다. 재시도 로직을 넣기 전에 어떤 케이스를 정상 요청으로 볼지 기획 기준을 먼저 확인해야 할 것 같습니다.",
+      "senderRole": "개발자",
+      "receiverRole": "기획자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["idempotency"]
+    }
+  },
+  {
+    "id": "TC-03",
+    "description": "개발자 → PM: race condition 같은 개발자 전문용어 사용",
+    "input": {
+      "text": "현재 쿠폰 적용 로직에서 race condition이 발생할 가능성이 있습니다. 동시에 여러 요청이 들어오면 할인 금액이 중복 적용될 수 있어서, 배포 전에 락 처리까지 포함할지 아니면 운영 정책으로 제한할지 결정이 필요합니다.",
+      "senderRole": "개발자",
+      "receiverRole": "PM",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["race condition", "락 처리", "운영 정책으로 제한"]
+    }
+  },
+  {
+    "id": "TC-04",
+    "description": "개발자 → 디자이너: debounce, throttle 같은 구현 용어 사용",
+    "input": {
+      "text": "검색창 입력은 debounce를 걸어서 처리하고, 스크롤 이벤트는 throttle을 적용하는 방향으로 보겠습니다. 다만 사용자가 입력했을 때 결과가 바로 바뀌는 느낌을 기대한다면 인터랙션 기준을 다시 맞춰야 할 것 같습니다.",
+      "senderRole": "개발자",
+      "receiverRole": "디자이너",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["debounce", "throttle", "인터랙션 기준"]
+    }
+  },
+  {
+    "id": "TC-05",
+    "description": "디자이너 → 개발자: 디자이너가 자기 직군 용어를 설명 없이 사용",
+    "input": {
+      "text": "이번 버튼 컴포넌트는 variant를 기준으로 정리했고, hover 상태와 disabled 상태는 피그마에 따로 넣어두었습니다. auto layout 기준으로 잡아두긴 했는데 실제 구현에서 간격이 달라질 수 있으면 미리 말씀해 주세요.",
+      "senderRole": "디자이너",
+      "receiverRole": "개발자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["variant", "hover", "auto layout"]
+    }
+  },
+  {
+    "id": "TC-06",
+    "description": "디자이너 → 기획자: affordance, IA 같은 디자인 전문용어 사용",
+    "input": {
+      "text": "현재 설정 화면은 affordance가 약해서 사용자가 어떤 영역을 눌러야 하는지 바로 알기 어렵습니다. IA도 조금 복잡해 보여서 메뉴 구조를 다시 잡는 방향으로 검토하면 좋겠습니다.",
+      "senderRole": "디자이너",
+      "receiverRole": "기획자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["affordance", "IA", "다시 잡는 방향"]
+    }
+  },
+  {
+    "id": "TC-07",
+    "description": "PM → 여러 직군: 판교어를 많이 사용해서 실제 행동 기준이 불명확",
+    "input": {
+      "text": "이번 주 안에 기획, 디자인, 개발 모두 얼라인하고 각자 액션아이템을 정리해 주세요. 블로커가 있으면 바로 공유하고, 방향성은 제가 컨펌한 뒤에 다음 단계로 넘기겠습니다.",
+      "senderRole": "PM",
+      "receiverRole": "기획자, 디자이너, 개발자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["얼라인", "액션아이템", "블로커", "다음 단계"]
+    }
+  },
+  {
+    "id": "TC-08",
+    "description": "PM → 개발자: 리소스, 오너십, 팔로업 등 판교식 표현 사용",
+    "input": {
+      "text": "이번 알림 개선 건은 개발 리소스가 많이 들지 않으면 바로 진행하고 싶습니다. 오너십은 백엔드 쪽에서 가져가고, 프론트 이슈는 별도로 팔로업하는 방식으로 정리하면 될 것 같습니다.",
+      "senderRole": "PM",
+      "receiverRole": "개발자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["리소스", "오너십", "팔로업"]
+    }
+  },
+  {
+    "id": "TC-09",
+    "description": "기획자 → 디자이너·개발자: 고도화, 자연스럽게 같은 기준 없는 표현 사용",
+    "input": {
+      "text": "이번 온보딩 화면은 기존보다 조금 더 고도화된 느낌으로 개선하고 싶습니다. 사용자가 자연스럽게 다음 단계로 넘어가도록 문구와 인터랙션을 조정해 주시고, 개발 부담이 크면 가능한 선에서 반영해 주세요.",
+      "senderRole": "기획자",
+      "receiverRole": "디자이너, 개발자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["고도화된 느낌", "가능한 선에서 반영"]
+    }
+  },
+  {
+    "id": "TC-10",
+    "description": "기획자 → 개발자: 정책, 상태, 권한이 모두 다르게 해석될 수 있음",
+    "input": {
+      "text": "지금 개발 상황에서 사용자 상태에 따라 접근 권한을 다르게 주는 정책을 반영해야 합니다.",
+      "senderRole": "기획자",
+      "receiverRole": "개발자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["사용자 상태", "접근 권한", "정책"]
+    }
+  },
+  {
+    "id": "TC-11",
+    "description": "개발자 → 기획자: API, 스키마, 마이그레이션 등 기술 용어로 일정 영향 설명",
+    "input": {
+      "text": "이번 변경은 단순 화면 수정이 아니라 API 스키마 변경과 데이터 마이그레이션이 같이 필요합니다. 기존 사용자 데이터까지 변환해야 해서, 기획에서 말한 바로 반영 가능한 작업인지 다시 확인이 필요합니다.",
+      "senderRole": "개발자",
+      "receiverRole": "기획자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["API 스키마", "데이터 마이그레이션", "바로 반영 가능한 작업"]
+    }
+  },
+  {
+    "id": "TC-12",
+    "description": "정상 케이스: 전문용어는 있지만 설명과 기준이 명확해서 위험 용어가 없어야 함",
+    "input": {
+      "text": "결제 API 응답 코드는 성공 시 200, 인증 실패 시 401, 권한 없음은 403, 서버 오류는 500으로 통일합니다. 백엔드는 내일 오후 3시까지 수정하고, 프론트는 이후 응답 코드별 문구만 연결합니다.",
+      "senderRole": "개발자",
+      "receiverRole": "개발자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": []
+    }
+  },
+  {
+    "id": "TC-13",
+    "description": "개발자 → PM: 완료 처리 기준이 개발 완료인지 QA 완료인지 불명확",
+    "input": {
+      "text": "결제 기능은 핵심 플로우 구현까지는 끝났고, 일부 실패 케이스는 아직 테스트 중입니다. 이번 스프린트에서는 완료 처리하고 남은 이슈는 다음 작업으로 넘겨도 되는지 확인 부탁드립니다.",
+      "senderRole": "개발자",
+      "receiverRole": "PM",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": []
+    }
+  },
+  {
+    "id": "TC-14",
+    "description": "PM → 개발자·디자이너: 공수의 포함 범위가 불명확 (개발만인지 디자인·QA까지인지)",
+    "input": {
+      "text": "이번 수정 건은 공수가 크지 않으면 바로 진행하고, 공수가 크면 다음 주 일정으로 넘기겠습니다.",
+      "senderRole": "PM",
+      "receiverRole": "개발자, 디자이너",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["공수"]
+    }
+  },
+  {
+    "id": "TC-15",
+    "description": "PM → 개발자: 검토의 의미가 단순 확인인지 승인 절차인지 불명확",
+    "input": {
+      "text": "API 변경안은 오늘 안에 검토 부탁드립니다.",
+      "senderRole": "PM",
+      "receiverRole": "개발자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 200,
+      "must_extract_terms": ["검토"]
+    }
+  },
+  {
+    "id": "TC-16",
+    "description": "실패 케이스: 일상 대화 — 업무 맥락 없음",
+    "input": {
+      "text": "오늘 점심 뭐 드셨어요? 저는 김치찌개 먹었는데 너무 맛있었어요.",
+      "senderRole": "기획자",
+      "receiverRole": "개발자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 400,
+      "must_extract_terms": []
+    }
+  },
+  {
+    "id": "TC-17",
+    "description": "실패 케이스: 지시대명사만 있고 대상이 불명확",
+    "input": {
+      "text": "저번에 말씀드린 그거 이번 주까지 부탁드려요.",
+      "senderRole": "기획자",
+      "receiverRole": "개발자",
+      "communicationType": "슬랙 메시지"
+    },
+    "expected": {
+      "status": 400,
+      "must_extract_terms": []
+    }
+  }
+]
