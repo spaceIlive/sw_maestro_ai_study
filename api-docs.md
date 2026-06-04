@@ -1,4 +1,4 @@
-# ContextBridge REST API 문서
+# ContextBridge API 문서
 
 ## 1. 협업 텍스트 분석 API
 
@@ -25,8 +25,10 @@ POST
 ```json
 {
   "text": "이번 주 안에 로그인 도메인 쪽 디벨롭 가능할까요? 공수 크면 우선 정책만 반영해도 됩니다.",
-  "senderRole": "기획자",
-  "receiverRole": "개발자",
+  "participants": [
+    { "name": "김기획", "role": "기획자" },
+    { "name": "김개발", "role": "개발자" }
+  ],
   "communicationType": "슬랙 메시지"
 }
 ```
@@ -35,18 +37,24 @@ POST
 
 ## 요청 필드 설명
 
-| 필드명               | 타입     | 필수 여부 | 설명                    |
-| ----------------- | ------ | ----- | --------------------- |
-| text              | string | 필수    | 분석할 협업 텍스트            |
-| senderRole        | string | 필수    | 발화자 직군                |
-| receiverRole      | string | 필수    | 수신자 직군                |
-| communicationType | string | 필수    | 입력 텍스트의 소통 유형         |
+| 필드명               | 타입     | 필수 여부 | 설명                                           |
+| ----------------- | ------ | ----- | -------------------------------------------- |
+| text              | string | 필수    | 분석할 협업 텍스트                                   |
+| participants      | array  | 필수    | 참여자 목록. 첫 번째 항목이 발화자, 나머지는 수신자로 처리됨          |
+| communicationType | string | 필수    | 입력 텍스트의 소통 유형                                |
+
+### participants 항목 필드
+
+| 필드명  | 타입     | 필수 여부 | 설명              |
+| ---- | ------ | ----- | --------------- |
+| name | string | 필수    | 참여자 이름 (내부에서 미사용) |
+| role | string | 필수    | 참여자 직군          |
 
 ---
 
 ## 입력값 예시
 
-### senderRole / receiverRole 예시
+### role 예시
 
 ```text
 기획자
