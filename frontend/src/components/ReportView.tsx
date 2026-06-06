@@ -1,5 +1,15 @@
 import type { ReactNode } from "react";
-import { ClipboardCheck, Copy, FileText, HelpCircle, ListChecks, TableProperties } from "lucide-react";
+import {
+  ClipboardCheck,
+  Copy,
+  Download,
+  FileText,
+  HelpCircle,
+  ListChecks,
+  Printer,
+  TableProperties,
+} from "lucide-react";
+import { useState } from "react";
 import type { AnalyzeResponse } from "../types";
 import { riskClass, routeLabel } from "../utils";
 
@@ -8,6 +18,8 @@ type ReportViewProps = {
 };
 
 export function ReportView({ report }: ReportViewProps) {
+  const [isDocxExporting, setIsDocxExporting] = useState(false);
+
   if (!report) {
     return (
       <section className="rounded-lg border border-dashed border-line bg-white p-8 text-center shadow-panel">
@@ -18,8 +30,18 @@ export function ReportView({ report }: ReportViewProps) {
     );
   }
 
+  const handleDocxDownload = async () => {
+    setIsDocxExporting(true);
+    try {
+      const { downloadReportDocx } = await import("../export/reportExport");
+      await downloadReportDocx(report);
+    } finally {
+      setIsDocxExporting(false);
+    }
+  };
+
   return (
-    <section className="rounded-lg border border-line bg-white p-6 shadow-panel">
+    <section className="print-report rounded-lg border border-line bg-white p-6 shadow-panel">
       <div className="flex flex-wrap items-start justify-between gap-4 border-b border-line pb-5">
         <div>
           <p className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-wide text-brand">
@@ -29,10 +51,33 @@ export function ReportView({ report }: ReportViewProps) {
           <h2 className="mt-2 text-2xl font-black text-ink">협업 텍스트 오해 가능 용어 분석</h2>
           <p className="mt-2 text-sm text-muted">선택 경로: {routeLabel(report.route)}</p>
         </div>
-        <div className="grid grid-cols-3 gap-2 text-center">
-          <Metric label="용어" value={`${report.terms.length}개`} />
-          <Metric label="질문" value={`${report.agreementQuestions.length}개`} />
-          <Metric label="체크" value={`${report.checklist.length}개`} />
+        <div className="flex flex-col gap-3">
+          <div className="print-hidden flex flex-wrap justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-line bg-white px-3 py-2 text-sm font-black text-ink transition hover:border-brand hover:text-brand"
+              title="보고서 영역만 인쇄하거나 PDF로 저장합니다."
+            >
+              <Printer className="h-4 w-4" />
+              PDF 저장
+            </button>
+            <button
+              type="button"
+              onClick={handleDocxDownload}
+              disabled={isDocxExporting}
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-3 py-2 text-sm font-black text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+              title="보고서를 Word 문서로 다운로드합니다."
+            >
+              <Download className="h-4 w-4" />
+              {isDocxExporting ? "생성 중" : "DOCX 다운로드"}
+            </button>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <Metric label="용어" value={`${report.terms.length}개`} />
+            <Metric label="질문" value={`${report.agreementQuestions.length}개`} />
+            <Metric label="체크" value={`${report.checklist.length}개`} />
+          </div>
         </div>
       </div>
 
