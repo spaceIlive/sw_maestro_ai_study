@@ -97,3 +97,57 @@ def build_graph():
 
 
 workflow = build_graph()
+
+# 노드 이름 → 사용자 표시용 한국어 레이블
+NODE_LABELS: dict[str, str] = {
+    "context_intake":       "문맥 분석 완료",
+    "word_extractor":       "핵심 단어 추출 완료",
+    "role_worker":          "직군별 의미 해석 완료",
+    "risk_term":            "위험 용어 선별 완료",
+    "synthesis":            "위험도 종합 분석 완료",
+    "report":               "최종 보고서 생성 완료",
+    "insufficient_context": "문맥 부족 감지됨",
+}
+
+WORKFLOW_STEPS = [
+    "context_intake",
+    "word_extractor",
+    "role_worker",
+    "risk_term",
+    "synthesis",
+    "report",
+]
+
+
+async def run_workflow_stream(input_data: dict, queue: "asyncio.Queue") -> dict | None:
+    """
+    astream(stream_mode="updates")으로 워크플로우를 실행한다.
+    노드가 완료될 때마다 progress 이벤트를 queue에 push하고,
+    최종 결과(final_report)를 반환한다.
+    """
+    import asyncio
+
+    final_report: dict | None = None
+
+    try:
+        async for chunk in workflow.astream(input_data, stream_mode="updates"):
+            # chunk = { "node_name": { ...해당 노드가 업데이트한 state 필드들... } }
+            for node_name, node_output in chunk.items():
+                if node_name in NODE_LABELS:
+                    await queue.put({
+                        "type": "progress",
+                        "step": node_name,
+                        "label": NODE_LABELS[node_name],
+                    })
+                if node_name == "report":
+                    final_report = node_output.get("final_report")
+
+    except ValueError as e:
+        await queue.put({"type": "error", "message": str(e)})
+    except Exception:
+        await queue.put({
+            "type": "error",
+            "message": "분석 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+        })
+
+    return final_report
