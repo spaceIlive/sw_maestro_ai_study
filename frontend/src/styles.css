@@ -10,8 +10,8 @@
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-  color: #23231f;
-  background: #f2efe8;
+  color: #2c334d;
+  background: #f6f7fc;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,7 +23,7 @@
 
 html {
   min-width: 320px;
-  background: #f2efe8;
+  background: #f6f7fc;
   scroll-behavior: smooth;
 }
 
@@ -32,21 +32,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
   word-break: keep-all;
-}
-
-body::before {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    90deg,
-    rgba(35, 35, 31, 0.018) 0,
-    rgba(35, 35, 31, 0.018) 1px,
-    transparent 1px,
-    transparent 80px
-  );
-  content: "";
 }
 
 button,
@@ -64,13 +49,13 @@ button:focus-visible,
 a:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid rgba(49, 87, 213, 0.55);
+  outline: 3px solid rgba(98, 105, 217, 0.45);
   outline-offset: 3px;
 }
 
 ::selection {
   color: #fffefa;
-  background: #d85b3f;
+  background: #6269d9;
 }
 
 .app-shell {
@@ -78,8 +63,9 @@ textarea:focus-visible {
   isolation: isolate;
   overflow-x: clip;
   background:
-    radial-gradient(circle at 76% 10%, rgba(216, 91, 63, 0.07), transparent 24rem),
-    linear-gradient(180deg, #f6f3ed 0%, #efebe3 100%);
+    radial-gradient(circle at 82% 7%, rgba(255, 190, 178, 0.32), transparent 25rem),
+    radial-gradient(circle at 18% 44%, rgba(190, 224, 255, 0.3), transparent 30rem),
+    linear-gradient(180deg, #faf9ff 0%, #f4f7fc 100%);
 }
 
 .app-glow {
@@ -90,46 +76,53 @@ textarea:focus-visible {
   border-radius: 999px;
   pointer-events: none;
   filter: blur(90px);
-  opacity: 0.22;
+  opacity: 0.34;
 }
 
 .app-glow-left {
   bottom: -16rem;
   left: 12%;
-  background: #d2c7b1;
+  background: #bfe9d5;
 }
 
 .app-glow-right {
   top: -17rem;
   right: -8rem;
-  background: #e9a28e;
+  background: #f8bdcf;
 }
 
 .surface-panel {
-  border: 1px solid #dad5cb;
-  background: rgba(255, 254, 250, 0.88);
-  box-shadow: 0 24px 70px rgba(73, 62, 46, 0.08);
+  border: 1px solid rgba(226, 230, 240, 0.9);
+  border-radius: 1.75rem;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 18px 50px rgba(73, 82, 125, 0.09);
   backdrop-filter: blur(18px);
 }
 
 .editorial-kicker {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0 0.75rem;
+  border-radius: 999px;
+  background: #fff0ed;
   font-size: 0.625rem;
   font-weight: 650;
   line-height: 1;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #d85b3f;
+  letter-spacing: -0.01em;
+  color: #d96d5d;
 }
 
 .action-hint {
-  border: 1px solid rgba(49, 87, 213, 0.18);
-  background: linear-gradient(135deg, rgba(237, 241, 255, 0.96), rgba(255, 254, 250, 0.9));
-  box-shadow: 0 12px 30px rgba(49, 87, 213, 0.07);
+  border: 1px solid rgba(98, 105, 217, 0.14);
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, rgba(240, 241, 255, 0.98), rgba(255, 255, 255, 0.94));
+  box-shadow: 0 12px 30px rgba(98, 105, 217, 0.08);
 }
 
 .field-control {
-  border: 1px solid #d9deef;
-  background: #f8f9ff;
+  border: 1px solid #e0e4f3;
+  background: #f7f8ff;
   transition:
     border-color 200ms ease,
     background-color 200ms ease,
@@ -138,25 +131,28 @@ textarea:focus-visible {
 }
 
 .field-control:hover {
-  border-color: rgba(49, 87, 213, 0.5);
+  border-color: rgba(98, 105, 217, 0.45);
   background: #ffffff;
   transform: translateY(-1px);
 }
 
 .field-control:focus-within {
-  border-color: #3157d5;
+  border-color: #6269d9;
   background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(49, 87, 213, 0.12);
+  box-shadow: 0 0 0 4px rgba(98, 105, 217, 0.1);
 }
 
 .report-paper {
+  border-radius: 2rem;
+  overflow: hidden;
   box-shadow:
-    0 1px 0 rgba(35, 35, 31, 0.03),
-    0 30px 90px rgba(73, 62, 46, 0.09);
+    0 1px 0 rgba(44, 51, 77, 0.03),
+    0 22px 60px rgba(73, 82, 125, 0.09);
 }
 
 .empty-report {
-  box-shadow: 0 24px 70px rgba(73, 62, 46, 0.06);
+  border-radius: 2rem;
+  box-shadow: 0 18px 50px rgba(73, 82, 125, 0.07);
 }
 
 .motion-rise {

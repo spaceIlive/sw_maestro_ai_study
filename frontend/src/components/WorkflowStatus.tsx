@@ -61,27 +61,27 @@ export function WorkflowStatus({
   const progress = Math.round((completedCount / steps.length) * 100);
 
   return (
-    <section className="overflow-hidden bg-ink text-white shadow-workflow">
-      <div className="border-b border-white/10 p-5 sm:p-6">
+    <section className="overflow-hidden rounded-[1.75rem] border border-[#dde0fa] bg-gradient-to-br from-[#f1f2ff] via-white to-[#fff3f0] text-ink shadow-workflow">
+      <div className="border-b border-[#e3e5f5] p-5 sm:p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.17em] text-white/45">
-              Live process
+            <p className="text-[11px] font-semibold text-action/70">
+              차근차근 분석하고 있어요
             </p>
             <h2 className="mt-2 text-xl font-semibold tracking-[-0.03em]">분석 진행 상태</h2>
           </div>
-          <span className="font-mono text-2xl font-medium tabular-nums text-[#7da2ff]">
+          <span className="rounded-full bg-white px-3 py-1.5 font-mono text-xl font-semibold tabular-nums text-action shadow-sm">
             {progress.toString().padStart(2, "0")}%
           </span>
         </div>
-        <div className="mt-5 h-px overflow-hidden bg-white/10">
+        <div className="mt-5 h-2 overflow-hidden rounded-full bg-[#e2e4f6]">
           <div
             className="h-full bg-action transition-all duration-700 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>
         <div className="mt-4 flex items-start justify-between gap-4">
-          <p className="text-xs font-medium leading-5 text-white/55">
+          <p className="text-xs font-medium leading-5 text-muted">
             {state === "loading" && progressLabel ? progressLabel : routeDescription(route)}
           </p>
           <span
@@ -91,7 +91,7 @@ export function WorkflowStatus({
                 ? "bg-action text-white"
                 : state === "success"
                   ? "bg-success text-white"
-                  : "border border-white/15 text-white/60",
+                  : "border border-[#dfe2f2] bg-white text-muted",
             )}
           >
             {state === "loading" ? "Running" : routeLabel(route)}
@@ -99,7 +99,7 @@ export function WorkflowStatus({
         </div>
       </div>
 
-      <div className="px-5 py-2 sm:px-6">
+      <div className="grid gap-2.5 p-4 sm:p-5">
         {steps.map((step, index) => {
           const isDone = state === "success" || completedSteps.includes(step.id);
           const isActive = state === "loading" && index === activeIndex;
@@ -108,19 +108,20 @@ export function WorkflowStatus({
             <div
               key={step.id}
               className={clsx(
-                "group grid grid-cols-[1.75rem_1fr_auto] items-center gap-3 border-b border-white/10 py-4 last:border-b-0 transition-all duration-300",
-                isActive && "-mx-3 bg-action/15 px-3",
-                !isDone && !isActive && "opacity-45",
+                "group grid grid-cols-[2rem_1fr_auto] items-center gap-3 rounded-2xl border px-3.5 py-3.5 transition-all duration-300",
+                isDone && "border-emerald-100 bg-emerald-50/80",
+                isActive && "border-[#cfd2ff] bg-white shadow-[0_8px_22px_rgba(98,105,217,0.1)]",
+                !isDone && !isActive && "border-transparent bg-white/45 opacity-65",
               )}
             >
               <span
                 className={clsx(
-                  "grid h-7 w-7 place-items-center border text-[10px] font-semibold",
+                  "grid h-8 w-8 place-items-center rounded-xl border text-[10px] font-semibold",
                   isDone && "border-success bg-success text-white",
                   isActive &&
                     !isDone &&
                     "border-action bg-action text-white shadow-[0_0_0_4px_rgba(49,87,213,0.18)]",
-                  !isDone && !isActive && "border-white/20 text-white",
+                  !isDone && !isActive && "border-[#dfe2ef] bg-white text-muted",
                 )}
               >
                 {isDone ? (
@@ -132,17 +133,17 @@ export function WorkflowStatus({
                 )}
               </span>
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-white">{step.label}</p>
-                <p className="mt-0.5 truncate text-[11px] font-medium text-white/45">
+                <p className="text-sm font-semibold text-ink">{step.label}</p>
+                <p className="mt-0.5 truncate text-[11px] font-medium text-muted">
                   {step.description}
                 </p>
               </div>
               <span
                 className={clsx(
                   "font-mono text-[9px] font-semibold uppercase tracking-[0.1em]",
-                  isDone && "text-[#72d49b]",
-                  isActive && "text-[#9bb5ff]",
-                  !isDone && !isActive && "text-white/45",
+                  isDone && "text-success",
+                  isActive && "text-action",
+                  !isDone && !isActive && "text-muted",
                 )}
               >
                 {isDone ? "Done" : isActive ? "Now" : "Wait"}

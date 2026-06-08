@@ -87,17 +87,17 @@ export default function App() {
 
         <main className="min-w-0 flex-1 px-4 pb-16 sm:px-6 lg:px-10 xl:px-14">
           <div className="mx-auto max-w-[1440px]">
-            <header className="motion-rise flex flex-col gap-8 border-b border-line pb-9 pt-10 md:pt-14 xl:flex-row xl:items-end xl:justify-between">
+            <header className="motion-rise flex flex-col gap-7 pb-7 pt-9 md:pt-12 xl:flex-row xl:items-end xl:justify-between">
               <div className="max-w-4xl">
                 <p className="editorial-kicker">
-                  {isAnalyzePage ? "Context review / 01" : "Archive / 02"}
+                  {isAnalyzePage ? "협업 문장 살펴보기" : "지난 분석 돌아보기"}
                 </p>
-                <h1 className="mt-5 max-w-4xl text-balance text-[clamp(2.5rem,5vw,5.2rem)] font-semibold leading-[1.03] tracking-[-0.055em] text-ink">
+                <h1 className="mt-4 max-w-3xl text-balance text-[clamp(2.25rem,4vw,4rem)] font-semibold leading-[1.13] tracking-[-0.04em] text-ink">
                   {isAnalyzePage ? (
                     <>
-                      모호한 표현을,
+                      말이 다르게 들리는 순간을
                       <br />
-                      <span className="text-action">합의할 수 있는 문장</span>으로.
+                      <span className="text-action">부드럽게 맞춰보세요.</span>
                     </>
                   ) : (
                     <>
@@ -107,14 +107,14 @@ export default function App() {
                     </>
                   )}
                 </h1>
-                <p className="mt-6 max-w-2xl text-[15px] font-medium leading-7 text-muted sm:text-base">
+                <p className="mt-5 max-w-2xl text-[15px] font-medium leading-7 text-muted sm:text-base">
                   {isAnalyzePage
                     ? "같은 단어를 다르게 이해하는 순간을 찾아, 업무를 시작하기 전에 확인할 질문과 기준을 정리합니다."
                     : "완료된 분석의 핵심 맥락과 합의 항목을 다시 열어보고, 필요한 보고서를 바로 내려받을 수 있습니다."}
                 </p>
               </div>
 
-              <div className="flex items-center gap-3 self-start border-l border-line pl-4 xl:mb-2 xl:self-auto">
+              <div className="flex items-center gap-3 self-start rounded-2xl border border-emerald-100 bg-emerald-50/80 px-4 py-3 xl:mb-1 xl:self-auto">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-30" />
                   <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
@@ -132,7 +132,7 @@ export default function App() {
             </header>
 
             {error ? (
-              <div className="motion-rise mt-6 flex items-start gap-3 border border-red-200 bg-red-50/80 px-4 py-3.5 text-sm font-semibold text-danger">
+              <div className="motion-rise mt-4 flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50/80 px-4 py-3.5 text-sm font-semibold text-danger">
                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} />
                 {error}
               </div>
@@ -140,7 +140,7 @@ export default function App() {
 
             {isAnalyzePage ? (
               <>
-                <div className="action-hint motion-rise motion-delay-1 mt-6 flex flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+                <div className="action-hint motion-rise motion-delay-1 mt-3 flex flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
                   <div className="flex items-center gap-3">
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-action text-white shadow-sm">
                       <ArrowDown className="h-4 w-4" strokeWidth={2.2} />
@@ -158,7 +158,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="mt-8 grid items-start gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(340px,0.65fr)]">
+                <div className="mt-6 grid items-start gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(340px,0.65fr)]">
                   <div className="motion-rise motion-delay-1">
                     <AnalyzeForm
                       value={request}
